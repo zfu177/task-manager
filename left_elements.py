@@ -17,6 +17,7 @@ def displayData(tree):
   fetch = connection.cursor.fetchall()
   for data in fetch:
       # Insert only task names
+      # insert at the end
       print(data)
       tree.insert('', 'end', values=(data[0], data[1]))
   connection.cursor.close()
@@ -55,12 +56,6 @@ def create_left_elements(left_frame):
   # insertData()
 
   displayData(tree)
-
-  # for line in range(100):
-  #   taskList.insert(END, "This is line number " + str(line))
-
-  # taskList.bind('<<ListboxSelect>>', onselect)
-  # ------ Listbox and Scrollbar ------
 
   # https://www.tutorialspoint.com/python/tk_button.htm
   add_task_btn = Button(bottom_menu_frame, text="Add Task")
