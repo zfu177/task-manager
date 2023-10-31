@@ -1,33 +1,31 @@
 from tkinter import *
+from tkinter import ttk
 
+root = Tk()
 
-class Application(Frame):   
-    def __init__(self,  master=None):
-        Frame.__init__(self, master)    
-        self.grid(sticky=N+S+E+W)   
-        self.mainframe()
+content = ttk.Frame(root)
+frame = ttk.Frame(content, borderwidth=5, relief="ridge", width=200, height=100)
+namelbl = ttk.Label(content, text="Name")
+name = ttk.Entry(content)
 
-    def mainframe(self):                
-        self.data = Listbox(self, bg='red')
-        self.scrollbar = Scrollbar(self.data, orient=VERTICAL)
-        self.data.config(yscrollcommand=self.scrollbar.set)
-        self.scrollbar.config(command=self.data.yview)
+onevar = BooleanVar(value=True)
+twovar = BooleanVar(value=False)
+threevar = BooleanVar(value=True)
 
-        for i in range(1000):
-            self.data.insert(END, str(i))
+one = ttk.Checkbutton(content, text="One", variable=onevar, onvalue=True)
+two = ttk.Checkbutton(content, text="Two", variable=twovar, onvalue=True)
+three = ttk.Checkbutton(content, text="Three", variable=threevar, onvalue=True)
+ok = ttk.Button(content, text="Okay")
+cancel = ttk.Button(content, text="Cancel")
 
-        self.run = Button(self, text="run")
-        self.stop = Button(self, text="stop")
+content.grid(column=0, row=0)
+frame.grid(column=0, row=0, columnspan=3, rowspan=2)
+namelbl.grid(column=3, row=0, columnspan=2)
+name.grid(column=3, row=1, columnspan=2)
+one.grid(column=0, row=3)
+two.grid(column=1, row=3)
+three.grid(column=2, row=3)
+ok.grid(column=3, row=3)
+cancel.grid(column=4, row=3)
 
-        self.data.grid(row=0, column=0, rowspan=4,
-                   columnspan=2, sticky=N+E+S+W)
-        self.data.columnconfigure(0, weight=1)
-
-        self.run.grid(row=4,column=0,sticky=EW)
-        self.stop.grid(row=4,column=1,sticky=EW)
-
-        self.scrollbar.grid(column=2, sticky=N+S)
-
-a = Application()
-a.mainframe()
-a.mainloop()
+root.mainloop()
