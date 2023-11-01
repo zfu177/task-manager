@@ -5,8 +5,9 @@ from right_elements import create_right_elements
 root = Tk()  # create a root widget
 root.title("Task Management Application (Zhongyi Fu)")
 root.configure(background="white")
-root.minsize(950, 700)  # width, height
-root.geometry("950x700+300+300")  # width x height + x + y
+root.minsize(935, 650)  # width, height
+root.maxsize(935, 650)
+root.geometry("935x650+300+300")  # width x height + x + y
 
 main_frame = Frame(root, width=650, height=650, padx=5, pady=5)
 main_frame.pack()

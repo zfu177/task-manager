@@ -28,6 +28,8 @@ def validate_date(dueDate):
 def clear_contents():
   name_entry.delete(0, END)
   name_entry.insert(0, "")
+  date_entry.delete(0, END)
+  date_entry.insert(0, "")
   description.delete(1.0, END)
   description.insert(END, "")
 
@@ -58,21 +60,21 @@ def update_fields(data, displayData, tree):
 def save_task(id, displayData, tree):
   task_name = name_entry.get()
   due_date = date_entry.get()
-
-  validate_res = validate_date(due_date)
-
-  if validate_res is False:
-    messagebox.showerror("showerror", "Invalid Date Format")
-  
   priority_value = priority_var.get()
   description_value = description.get("1.0", END)
   new_Task = (id, task_name, priority_value, due_date, description_value)
 
+  # Validate date format
+  validate_res = validate_date(due_date)
+  
   if task_name == "":
     messagebox.showerror("showerror", "Name cannot be empty")
+    return
+  elif validate_res is False:
+    messagebox.showerror("showerror", "Invalid Date Format")
+    return
   else:
     updateTask(new_Task)
-    messagebox.showinfo("showinfo", "Success")
     displayData()
     children = tree.get_children()
     for child in children:
@@ -81,6 +83,8 @@ def save_task(id, displayData, tree):
       if record[0] == id:
         tree.selection_add(child)
         break
+
+    messagebox.showinfo("showinfo", "Success")
     
 
 def create_right_elements(task_frame):
@@ -106,9 +110,9 @@ def create_right_elements(task_frame):
   low = Radiobutton(task_frame, text="Low", variable=priority_var, value="low")
 
   priority_label.grid(row=1, column=0, padx=10, pady=5, sticky = W)
-  high.grid(row=1, column=1, padx=10, pady=5)
-  medium.grid(row=1, column=2, padx=10, pady=5)
-  low.grid(row=1, column=3, padx=10, pady=5)
+  high.grid(row=1, column=1, padx=5, pady=5)
+  medium.grid(row=1, column=2, padx=5, pady=5)
+  low.grid(row=1, column=3, padx=5, pady=5)
 
   # Due Date field
   due_date_label = Label(task_frame, text="Due Date")
