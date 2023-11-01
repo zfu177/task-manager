@@ -6,13 +6,7 @@ from right_elements import update_fields
 from connection import addTask, findTaskById, findTasks, deleteTaskById
 
 
-def displayData():
-  tree.delete(*tree.get_children())
-  fetch = findTasks()
-  for data in fetch:
-      # Insert only task names
-      # insert at the end
-      tree.insert('', 'end', values=(data[0], data[1]))
+
   
 
 
@@ -22,8 +16,6 @@ def create_left_elements(left_frame):
   list_frame = Frame(left_frame)
   
   # ------ Treeview and Scrollbar ------
-  global tree
-
   Label(left_frame, text="My Tasks", font=("Times", 20)).pack(side=TOP, pady=10)
 
   scrollbary = Scrollbar(list_frame, orient=VERTICAL)
@@ -37,6 +29,19 @@ def create_left_elements(left_frame):
   scrollbary.pack(side=RIGHT, fill=Y)
   tree.pack(side=LEFT)
 
+
+
+  def displayData():
+    tree.delete(*tree.get_children())
+    fetch = findTasks()
+    for data in fetch:
+        # Insert only task names
+        # insert at the end
+        tree.insert('', 'end', values=(data[0], data[1]))
+
+
+  displayData()
+
   # https://www.pythontutorial.net/tkinter/tkinter-treeview/
   def item_selected(event):
     for selected_item in tree.selection():
@@ -44,17 +49,19 @@ def create_left_elements(left_frame):
         item = tree.item(selected_item)
         record = item['values']
         data = findTaskById(record[0])
-        update_fields(data)
+        update_fields(data, displayData)
 
   tree.bind('<<TreeviewSelect>>', item_selected)
 
-  displayData()
+
   children = tree.get_children()
   tree.selection_add(children[0])
   
   list_frame.pack(side=TOP)
 
   # https://www.tutorialspoint.com/python/tk_button.htm
+
+
 
   def addEmptyTask():
      addTask()

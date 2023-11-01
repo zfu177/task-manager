@@ -14,7 +14,7 @@ def clear_contents():
   description.insert(END, "")
 
 
-def update_fields(data):
+def update_fields(data, displayData):
   name_entry.delete(0, END)
   name_entry.insert(0, data[1])
 
@@ -31,11 +31,11 @@ def update_fields(data):
   description.insert(END, data[4])
 
   # https://stackoverflow.com/a/22290388
-  action_with_arg = partial(save_task, data[0])
+  action_with_arg = partial(save_task, data[0], displayData)
   save_button.configure(command=action_with_arg)
 
 
-def save_task(id):
+def save_task(id, displayData):
   task_name = name_entry.get()
   due_date = str(date_picker.get_date())
   priority_value = priority_var.get()
@@ -48,6 +48,7 @@ def save_task(id):
   else:
     updateTask(new_Task)
     messagebox.showinfo("showinfo", "Success")
+    displayData()
     
 
 
