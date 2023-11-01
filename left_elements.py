@@ -6,7 +6,7 @@ from create_task_elements import update_fields
 from connection import addTask, findTaskById, findTasks, deleteTaskById
 
 
-def displayData(tree):
+def displayData():
   tree.delete(*tree.get_children())
   fetch = findTasks()
   for data in fetch:
@@ -21,6 +21,7 @@ def create_left_elements(left_frame):
   list_frame = Frame(left_frame)
   
   # ------ Treeview and Scrollbar ------
+  global tree
 
   Label(left_frame, text="My Tasks", font=("Times", 20)).pack(side=TOP, pady=10)
 
@@ -40,13 +41,16 @@ def create_left_elements(left_frame):
     for selected_item in tree.selection():
         item = tree.item(selected_item)
         record = item['values']
+        print(record)
         data = findTaskById(record[0])
         update_fields(data)
 
   tree.bind('<<TreeviewSelect>>', item_selected)
 
   # insertData()
-  displayData(tree)
+  displayData()
+  
+
   
   list_frame.pack(side=TOP)
 
@@ -54,7 +58,7 @@ def create_left_elements(left_frame):
 
   def addEmptyTask():
      id, default_task = addTask()
-     displayData(tree)
+     displayData()
      update_fields((id, default_task[0], default_task[1], default_task[2], default_task[3]))
      
   
@@ -63,7 +67,7 @@ def create_left_elements(left_frame):
       item = tree.item(selected_item)
       record = item['values']
       deleteTaskById(record[0])
-      displayData(tree)
+      displayData()
       messagebox.showinfo("showinfo", "Success")
 
 

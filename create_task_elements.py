@@ -4,6 +4,7 @@ from tkinter import messagebox
 from tkinter import scrolledtext 
 from tkcalendar import DateEntry
 from functools import partial
+from connection import updateTask
 
 
 def clear_contents():
@@ -36,14 +37,16 @@ def update_fields(data):
 
 def save_task(id):
   task_name = name_entry.get()
-  due_date = date_picker.get_date()
+  due_date = str(date_picker.get_date())
   priority_value = priority_var.get()
   description_value = description.get("1.0", END)
-  print(id, task_name, due_date, priority_value, description_value)
+  new_Task = (id, task_name, priority_value, due_date, description_value)
+  print(new_Task)
 
   if task_name == "":
     messagebox.showerror("showerror", "Name cannot be empty")
-
+  else:
+    updateTask(new_Task)
 
 
 def create_task_elements(task_frame):
