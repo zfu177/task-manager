@@ -5,6 +5,24 @@ from tkinter import scrolledtext
 from tkcalendar import DateEntry
 from functools import partial
 from connection import updateTask
+import calendar
+
+
+def validate_date(dueDate):
+  s = dueDate.split("-")
+  if len(s) != 3:
+    return False
+  
+  if len(s[0]) != 4:
+    return False
+  
+  if len(s[1]) != 2 or int(s[1]) > 12:
+    return False
+
+  if len(s[2]) != 2 or int(s[2]) > calendar.monthrange(int(s[0]), int(s[1]))[1]:
+    return False
+  
+  return True
 
 
 def clear_contents():
@@ -18,6 +36,9 @@ def update_fields(data, displayData, tree):
   name_entry.delete(0, END)
   name_entry.insert(0, data[1])
 
+  date_entry.delete(0, END)
+  date_entry.insert(0, data[3])
+
   match data[2]:
     case "high":
       high.invoke()
@@ -26,7 +47,6 @@ def update_fields(data, displayData, tree):
     case "low":
       low.invoke()
 
-  date_picker.set_date(data[3])
   description.delete(1.0, END)
   description.insert(END, data[4])
 
@@ -37,7 +57,13 @@ def update_fields(data, displayData, tree):
 
 def save_task(id, displayData, tree):
   task_name = name_entry.get()
-  due_date = str(date_picker.get_date())
+  due_date = date_entry.get()
+
+  validate_res = validate_date(due_date)
+
+  if validate_res is False:
+    messagebox.showerror("showerror", "Invalid Date Format")
+  
   priority_value = priority_var.get()
   description_value = description.get("1.0", END)
   new_Task = (id, task_name, priority_value, due_date, description_value)
@@ -62,7 +88,7 @@ def create_right_elements(task_frame):
   # sticky="W" -- keep west - left
   # https://stackoverflow.com/questions/30550774/how-to-left-justify-python-tkinter-grid-columns-while-filling-entire-cell
 
-  global name_entry, high, low, medium, date_picker, description, save_button, priority_var
+  global name_entry, high, low, medium, date_entry, description, save_button, priority_var
 
   name_label = Label(task_frame, text="Name")
   name_entry = Entry(task_frame, width=50)
@@ -88,9 +114,8 @@ def create_right_elements(task_frame):
   due_date_label = Label(task_frame, text="Due Date")
   due_date_label.grid(row=2, column=0, padx=10, pady=5, sticky = W)
 
-  #Create a Calendar
-  date_picker = DateEntry(task_frame, selectmode='day', date_pattern='yyyy-MM-dd', locale='en_US', width=49, state="readonly")
-  date_picker.grid(row=2, column=1, columnspan=3, padx=10, pady=5)
+  date_entry = Entry(task_frame, width=50)
+  date_entry.grid(row=2, column=1, columnspan=3, padx=10, pady=5)
 
   # Description Field
   desc_label = Label(task_frame, text="Description", justify="left")
