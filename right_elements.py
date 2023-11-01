@@ -114,8 +114,11 @@ def create_right_elements(task_frame):
   due_date_label = Label(task_frame, text="Due Date")
   due_date_label.grid(row=2, column=0, padx=10, pady=5, sticky = W)
 
-  date_entry = Entry(task_frame, width=50)
-  date_entry.grid(row=2, column=1, columnspan=3, padx=10, pady=5)
+  date_entry = Entry(task_frame, width=25)
+  date_entry.grid(row=2, column=1, padx=5, pady=10)
+
+  due_date_format_label = Label(task_frame, text="Format: YYYY-MM-DD")
+  due_date_format_label.grid(row=2, column=2, columnspan=2, padx=10, pady=5, sticky = W)
 
   # Description Field
   desc_label = Label(task_frame, text="Description", justify="left")
