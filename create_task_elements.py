@@ -47,6 +47,8 @@ def save_task(id):
     messagebox.showerror("showerror", "Name cannot be empty")
   else:
     updateTask(new_Task)
+    messagebox.showinfo("showinfo", "Success")
+    
 
 
 def create_task_elements(task_frame):
