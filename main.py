@@ -8,13 +8,13 @@ root.configure(background="white")
 root.minsize(950, 700)  # width, height
 root.geometry("950x700+300+300")  # width x height + x + y
 
-main_frame = Frame(root, width=650, height=650, padx=10, pady=10)
+main_frame = Frame(root, width=650, height=650, padx=5, pady=5)
 main_frame.pack()
 
-left_frame = Frame(main_frame, width=200, height=640, padx=10, pady=10)
+left_frame = Frame(main_frame, width=200, height=640, padx=5)
 left_frame.pack(side=LEFT)
 
-right_frame = Frame(main_frame, width=400, height=640, padx=10, pady=10)
+right_frame = Frame(main_frame, width=400, height=640, padx=5)
 right_frame.pack(side=RIGHT)
 
 task_frame = Frame(right_frame)
