@@ -14,7 +14,7 @@ def clear_contents():
   description.insert(END, "")
 
 
-def update_fields(data, displayData):
+def update_fields(data, displayData, tree):
   name_entry.delete(0, END)
   name_entry.insert(0, data[1])
 
@@ -31,11 +31,11 @@ def update_fields(data, displayData):
   description.insert(END, data[4])
 
   # https://stackoverflow.com/a/22290388
-  action_with_arg = partial(save_task, data[0], displayData)
+  action_with_arg = partial(save_task, data[0], displayData, tree)
   save_button.configure(command=action_with_arg)
 
 
-def save_task(id, displayData):
+def save_task(id, displayData, tree):
   task_name = name_entry.get()
   due_date = str(date_picker.get_date())
   priority_value = priority_var.get()
@@ -49,8 +49,14 @@ def save_task(id, displayData):
     updateTask(new_Task)
     messagebox.showinfo("showinfo", "Success")
     displayData()
+    children = tree.get_children()
+    for child in children:
+      item = tree.item(child)
+      record = item['values']
+      if record[0] == id:
+        tree.selection_add(child)
+        break
     
-
 
 def create_right_elements(task_frame):
   # Name field

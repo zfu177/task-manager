@@ -42,6 +42,9 @@ def create_left_elements(left_frame):
 
   displayData()
 
+
+
+
   # https://www.pythontutorial.net/tkinter/tkinter-treeview/
   def item_selected(event):
     for selected_item in tree.selection():
@@ -49,7 +52,8 @@ def create_left_elements(left_frame):
         item = tree.item(selected_item)
         record = item['values']
         data = findTaskById(record[0])
-        update_fields(data, displayData)
+        
+        update_fields(data, displayData, tree)
 
   tree.bind('<<TreeviewSelect>>', item_selected)
 
