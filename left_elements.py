@@ -1,5 +1,6 @@
 # Define left Frame elements
 from tkinter import *
+from tkinter import messagebox 
 import tkinter.ttk as ttk
 from create_task_elements import update_fields
 from connection import addTask, findTaskById, findTasks, deleteTaskById
@@ -63,6 +64,7 @@ def create_left_elements(left_frame):
       record = item['values']
       deleteTaskById(record[0])
       displayData(tree)
+      messagebox.showinfo("showinfo", "Success")
 
 
   bottom_menu_frame = Frame(left_frame)
