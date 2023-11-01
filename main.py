@@ -5,21 +5,19 @@ from right_elements import create_right_elements
 root = Tk()  # create a root widget
 root.title("Task Management Application (Zhongyi Fu)")
 root.configure(background="white")
-# root.minsize(200, 200)  # width, height
-# root.maxsize(500, 500)
-root.geometry("650x650+300+300")  # width x height + x + y
+root.minsize(950, 700)  # width, height
+root.geometry("950x700+300+300")  # width x height + x + y
 
+main_frame = Frame(root, width=650, height=650, padx=5, pady=5)
+main_frame.pack()
 
-main_frame = Frame(root, width=650, height=650)
-main_frame.grid(row=0, column=0)
+left_frame = Frame(main_frame, width=200, height=640, padx=5)
+left_frame.pack(side=LEFT)
 
-left_frame = Frame(main_frame, width=200, height=600)
-left_frame.grid(row=0, column=0, padx=10, pady=5)
+right_frame = Frame(main_frame, width=400, height=640, padx=5)
+right_frame.pack(side=RIGHT)
 
 create_left_elements(left_frame)
-
-right_frame = Frame(main_frame, width=400, height=600)
-right_frame.grid(row=0, column=1, padx=10, pady=5)
 create_right_elements(right_frame)
 
 root.mainloop()
