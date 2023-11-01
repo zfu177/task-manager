@@ -51,7 +51,7 @@ def save_task(id):
     
 
 
-def create_task_elements(task_frame):
+def create_right_elements(task_frame):
   # Name field
   # sticky="W" -- keep west - left
   # https://stackoverflow.com/questions/30550774/how-to-left-justify-python-tkinter-grid-columns-while-filling-entire-cell

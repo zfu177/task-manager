@@ -2,7 +2,7 @@
 from tkinter import *
 from tkinter import messagebox 
 import tkinter.ttk as ttk
-from create_task_elements import update_fields
+from right_elements import update_fields
 from connection import addTask, findTaskById, findTasks, deleteTaskById
 
 
