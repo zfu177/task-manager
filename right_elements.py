@@ -21,7 +21,7 @@ def update_fields(data, displayData, tree):
   match data[2]:
     case "high":
       high.invoke()
-    case "medimu":
+    case "medium":
       medium.invoke()
     case "low":
       low.invoke()
@@ -41,7 +41,6 @@ def save_task(id, displayData, tree):
   priority_value = priority_var.get()
   description_value = description.get("1.0", END)
   new_Task = (id, task_name, priority_value, due_date, description_value)
-  print(new_Task)
 
   if task_name == "":
     messagebox.showerror("showerror", "Name cannot be empty")
@@ -74,9 +73,6 @@ def create_right_elements(task_frame):
   # Priority field
   priority_label = Label(task_frame, text="Priority")
 
-  # def print_sel():
-  #   print(priority_var.get())
-  
   priority_var = StringVar()
   
   high = Radiobutton(task_frame, text="High", variable=priority_var, value="high")
