@@ -2,12 +2,8 @@
 from tkinter import *
 from tkinter import messagebox 
 import tkinter.ttk as ttk
-from right_elements import update_fields
+from right_elements import update_fields, clear_contents
 from connection import addTask, findTaskById, findTasks, deleteTaskById
-
-
-
-  
 
 
 # https://stackoverflow.com/questions/24656138/python-tkinter-attach-scrollbar-to-listbox-as-opposed-to-window
@@ -22,9 +18,9 @@ def create_left_elements(left_frame):
   tree = ttk.Treeview(list_frame, columns=("id", "name"), selectmode="browse", height=30, yscrollcommand=scrollbary.set)
   scrollbary.config(command=tree.yview)
   tree.heading('id', text="ID", anchor=W)
-  tree.column('#0', stretch=NO, minwidth=0, width=0)
+  tree.column('#0', stretch=NO, minwidth=0, width=0, anchor=CENTER)
   tree.heading('name', text="Name", anchor=W)
-  tree.column('#1', stretch=NO, minwidth=0, width=100)
+  tree.column('#1', stretch=NO, minwidth=0, width=100, anchor=CENTER)
   
   scrollbary.pack(side=RIGHT, fill=Y)
   tree.pack(side=LEFT)
@@ -43,8 +39,6 @@ def create_left_elements(left_frame):
   displayData()
 
 
-
-
   # https://www.pythontutorial.net/tkinter/tkinter-treeview/
   def item_selected(event):
     for selected_item in tree.selection():
@@ -58,7 +52,8 @@ def create_left_elements(left_frame):
 
 
   children = tree.get_children()
-  tree.selection_add(children[0])
+  if (len(children) > 0):
+    tree.selection_add(children[0])
   
   list_frame.pack(side=TOP)
 
@@ -80,6 +75,12 @@ def create_left_elements(left_frame):
       deleteTaskById(record[0])
       displayData()
       messagebox.showinfo("showinfo", "Success")
+      # After delete focus on the first item if exist
+      children = tree.get_children()
+      if (len(children) > 0):
+        tree.selection_add(children[0])
+      else:
+         clear_contents()
 
 
   bottom_menu_frame = Frame(left_frame)
@@ -88,3 +89,5 @@ def create_left_elements(left_frame):
   delete_task_btn = Button(bottom_menu_frame, text="Delete Task", command=deleteSelectedTask)
   add_task_btn.pack(side=LEFT)
   delete_task_btn.pack(side=RIGHT)
+
+  return displayData, tree

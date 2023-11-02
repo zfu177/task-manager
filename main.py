@@ -18,7 +18,7 @@ left_frame.pack(side=LEFT)
 right_frame = Frame(main_frame, width=400, height=640, padx=5)
 right_frame.pack(side=RIGHT)
 
-create_left_elements(left_frame)
-create_right_elements(right_frame)
+displayData, tree = create_left_elements(left_frame)
+create_right_elements(right_frame, displayData, tree)
 
 root.mainloop()

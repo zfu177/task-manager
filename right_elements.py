@@ -4,7 +4,7 @@ from tkinter import messagebox
 from tkinter import scrolledtext 
 from tkcalendar import DateEntry
 from functools import partial
-from connection import updateTask
+from connection import updateTask, addTask
 import calendar
 
 
@@ -58,6 +58,10 @@ def update_fields(data, displayData, tree):
 
 
 def save_task(id, displayData, tree):
+  if id is None:
+    new_id, _ = addTask()
+    id = new_id
+
   task_name = name_entry.get()
   due_date = date_entry.get()
   priority_value = priority_var.get()
@@ -87,7 +91,7 @@ def save_task(id, displayData, tree):
     messagebox.showinfo("showinfo", "Success")
     
 
-def create_right_elements(task_frame):
+def create_right_elements(task_frame, displayData, tree):
   # Name field
   # sticky="W" -- keep west - left
   # https://stackoverflow.com/questions/30550774/how-to-left-justify-python-tkinter-grid-columns-while-filling-entire-cell
@@ -131,7 +135,10 @@ def create_right_elements(task_frame):
   description.grid(row=3, column=1, columnspan=3, padx=10, pady=5)
 
   # Save and Clear Button
-  save_button = Button(task_frame, text="Save", command=save_task)
+
+  action_with_arg = partial(save_task, None, displayData, tree)
+  
+  save_button = Button(task_frame, text="Save", command=action_with_arg)
   save_button.grid(row=4, column=1, columnspan=2, padx=10, pady=5)
   clear_button = Button(task_frame, text="Clear", command=clear_contents)
   clear_button.grid(row=4, column=2, columnspan=2, padx=10, pady=5)
