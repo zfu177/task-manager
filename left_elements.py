@@ -1,9 +1,9 @@
 # Define left Frame elements
 from tkinter import *
-from tkinter import messagebox 
+from tkinter import messagebox
 import tkinter.ttk as ttk
 from right_elements import update_fields, clear_contents
-from connection import addTask, findTaskById, findTasks, deleteTaskById
+from connection import addTask, findTaskById, findTasks, deleteTaskById, deleteAllTasks
 
 
 # https://stackoverflow.com/questions/24656138/python-tkinter-attach-scrollbar-to-listbox-as-opposed-to-window
@@ -83,13 +83,23 @@ def create_left_elements(left_frame):
          # Otherwise, if no items at all, clear the contents on
          clear_contents()
 
+  def deleteAll():
+     confirmed = messagebox.askyesno(title="Confirm Delete All Tasks", message="Are you sure you want to delete all tasks?")
+     if confirmed:
+      deleteAllTasks()
+      clear_contents()
+      displayData()
+      messagebox.showinfo("showinfo", "Success")
+
 
   # Pack elements
   bottom_menu_frame = Frame(left_frame)
   bottom_menu_frame.pack(side=BOTTOM)
   add_task_btn = Button(bottom_menu_frame, text="Add Task", command=addEmptyTask)
   delete_task_btn = Button(bottom_menu_frame, text="Delete Task", command=deleteSelectedTask)
+  delete_all_btn = Button(bottom_menu_frame, text="Delete All", command=deleteAll)
   add_task_btn.pack(side=LEFT)
+  delete_all_btn.pack(side=RIGHT)
   delete_task_btn.pack(side=RIGHT)
 
   return displayData, tree

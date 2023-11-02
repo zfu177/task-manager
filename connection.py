@@ -46,6 +46,14 @@ def deleteTaskById(id):
   conn.close()
 
 
+def deleteAllTasks():
+  Database()
+  cursor.execute("DELETE FROM `tasks`")
+  conn.commit()
+  cursor.close()
+  conn.close()
+
+
 def updateTask(data):
   Database()
   cursor.execute("UPDATE `tasks` SET name = ?, priority = ?, dueDate = ?, description = ? where id = ?", (data[1], data[2], data[3], data[4], str(data[0])))
