@@ -2,7 +2,6 @@ from tkinter import *
 from tkinter.ttk import *
 from tkinter import messagebox 
 from tkinter import scrolledtext 
-from tkcalendar import DateEntry
 from functools import partial
 from connection import updateTask, addTask
 import calendar
