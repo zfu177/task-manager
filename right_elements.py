@@ -58,26 +58,26 @@ def update_fields(data, displayData, tree):
 
 
 def save_task(id, displayData, tree):
-  if id is None:
-    new_id, _ = addTask()
-    id = new_id
-
   task_name = name_entry.get()
   due_date = date_entry.get()
   priority_value = priority_var.get()
   description_value = description.get("1.0", END)
-  new_Task = (id, task_name, priority_value, due_date, description_value)
-
-  # Validate date format
-  validate_res = validate_date(due_date)
   
   if task_name == "":
     messagebox.showerror("showerror", "Name cannot be empty")
     return
-  elif validate_res is False:
+  elif validate_date(due_date) is False:
+    # Validate date format
     messagebox.showerror("showerror", "Invalid Date Format")
     return
   else:
+    if id is None:
+      # Handle case when "Add Task" button is not clicked and nothing is selected
+      new_id, _ = addTask()
+      id = new_id
+
+    new_Task = (id, task_name, priority_value, due_date, description_value)
+    
     updateTask(new_Task)
     displayData()
     children = tree.get_children()
