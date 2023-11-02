@@ -26,16 +26,16 @@ def create_left_elements(left_frame):
   tree.pack(side=LEFT)
 
 
-
   def displayData():
     tree.delete(*tree.get_children())
     fetch = findTasks()
     for data in fetch:
-        # Insert only task names
-        # insert at the end
+        # Insert only task id and names
+        # for each loop, insert at the end
         tree.insert('', 'end', values=(data[0], data[1]))
 
 
+  # Display data on launch
   displayData()
 
 
@@ -51,6 +51,7 @@ def create_left_elements(left_frame):
   tree.bind('<<TreeviewSelect>>', item_selected)
 
 
+  # If data exist, automatically select the first row
   children = tree.get_children()
   if (len(children) > 0):
     tree.selection_add(children[0])
@@ -59,8 +60,7 @@ def create_left_elements(left_frame):
 
   # https://www.tutorialspoint.com/python/tk_button.htm
 
-
-
+  # Add an empty task when clicking the "Add Task" button
   def addEmptyTask():
      addTask()
      displayData()
@@ -75,14 +75,16 @@ def create_left_elements(left_frame):
       deleteTaskById(record[0])
       displayData()
       messagebox.showinfo("showinfo", "Success")
-      # After delete focus on the first item if exist
+      # After delete select the first item if exist
       children = tree.get_children()
       if (len(children) > 0):
         tree.selection_add(children[0])
       else:
+         # Otherwise, if no items at all, clear the contents on
          clear_contents()
 
 
+  # Pack elements
   bottom_menu_frame = Frame(left_frame)
   bottom_menu_frame.pack(side=BOTTOM)
   add_task_btn = Button(bottom_menu_frame, text="Add Task", command=addEmptyTask)
