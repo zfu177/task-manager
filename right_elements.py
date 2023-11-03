@@ -12,12 +12,15 @@ def validate_date(dueDate):
   if len(s) != 3:
     return False
   
+  # Year must be 4 digits
   if len(s[0]) != 4:
     return False
   
+  # Month cannot > 12
   if len(s[1]) != 2 or int(s[1]) > 12:
     return False
 
+  # Day cannot > than calendar days range
   if len(s[2]) != 2 or int(s[2]) > calendar.monthrange(int(s[0]), int(s[1]))[1]:
     return False
   
@@ -61,13 +64,19 @@ def save_task(id, displayData, tree):
   due_date = date_entry.get()
   priority_value = priority_var.get()
   description_value = description.get("1.0", END)
-  
+
   if task_name == "":
     messagebox.showerror("showerror", "Name cannot be empty")
     return
+  elif priority_value == "":
+    messagebox.showerror("showerror", "Please select priority")
+    return
+  elif due_date == "":
+    messagebox.showerror("showerror", "Due Date cannot be empty")
+    return
   elif validate_date(due_date) is False:
     # Validate date format
-    messagebox.showerror("showerror", "Invalid Date Format")
+    messagebox.showerror("showerror", "Invalid Date Format. Format must be YYYY-MM-DD. Example: 2023-10-10")
     return
   else:
     if id is None:
@@ -79,6 +88,8 @@ def save_task(id, displayData, tree):
     
     updateTask(new_Task)
     displayData()
+
+    # Auto select the just created task
     children = tree.get_children()
     for child in children:
       item = tree.item(child)
@@ -94,14 +105,13 @@ def create_right_elements(task_frame, displayData, tree):
   # Name field
   # sticky="W" -- keep west - left
   # https://stackoverflow.com/questions/30550774/how-to-left-justify-python-tkinter-grid-columns-while-filling-entire-cell
-
   global name_entry, high, low, medium, date_entry, description, save_button, priority_var
 
   name_label = Label(task_frame, text="Name")
-  name_entry = Entry(task_frame, width=50)
+  name_entry = Entry(task_frame)
 
   name_label.grid(row=0, column=0, padx=10, pady=5, sticky = W)
-  name_entry.grid(row=0, column=1, columnspan=3, padx=10, pady=5)
+  name_entry.grid(row=0, column=1, columnspan=6, padx=10, pady=5, sticky=N+S+E+W)
 
   # Priority field
   priority_label = Label(task_frame, text="Priority")
@@ -113,31 +123,31 @@ def create_right_elements(task_frame, displayData, tree):
   low = Radiobutton(task_frame, text="Low", variable=priority_var, value="low")
 
   priority_label.grid(row=1, column=0, padx=10, pady=5, sticky = W)
-  high.grid(row=1, column=1, padx=5, pady=5)
-  medium.grid(row=1, column=2, padx=5, pady=5)
-  low.grid(row=1, column=3, padx=5, pady=5)
+  high.grid(row=1, column=1, columnspan=2, padx=5, pady=5)
+  medium.grid(row=1, column=3, columnspan=2, padx=5, pady=5)
+  low.grid(row=1, column=5, columnspan=2, padx=5, pady=5)
 
   # Due Date field
   due_date_label = Label(task_frame, text="Due Date")
   due_date_label.grid(row=2, column=0, padx=10, pady=5, sticky = W)
 
-  date_entry = Entry(task_frame, width=25)
-  date_entry.grid(row=2, column=1, padx=5, pady=10)
+  date_entry = Entry(task_frame)
+  date_entry.grid(row=2, column=1, columnspan=3, padx=10, pady=5, sticky=N+S+E+W)
 
   due_date_format_label = Label(task_frame, text="Format: YYYY-MM-DD")
-  due_date_format_label.grid(row=2, column=2, columnspan=2, padx=10, pady=5, sticky = W)
+  due_date_format_label.grid(row=2, column=4, columnspan=3, padx=10, pady=5, sticky = W)
 
   # Description Field
-  desc_label = Label(task_frame, text="Description", justify="left")
+  desc_label = Label(task_frame, text="Description")
   desc_label.grid(row=3, column=0, padx=10, pady=5, sticky = W)
   description = scrolledtext.ScrolledText(task_frame, width=65)
-  description.grid(row=3, column=1, columnspan=3, padx=10, pady=5)
+  description.grid(row=3, column=1, columnspan=6, padx=10, pady=5)
 
   # Save and Clear Button
 
   action_with_arg = partial(save_task, None, displayData, tree)
   
   save_button = Button(task_frame, text="Save", command=action_with_arg)
-  save_button.grid(row=4, column=1, columnspan=2, padx=10, pady=5)
+  save_button.grid(row=4, column=1, columnspan=3, padx=10, pady=5)
   clear_button = Button(task_frame, text="Clear", command=clear_contents)
-  clear_button.grid(row=4, column=2, columnspan=2, padx=10, pady=5)
+  clear_button.grid(row=4, column=4, columnspan=3, padx=10, pady=5)
